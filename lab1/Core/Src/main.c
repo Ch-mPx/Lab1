@@ -62,6 +62,10 @@ struct Portpin L[4] = {
 };
 
 uint16_t ButtonMatrix = 0 ;
+uint16_t position = 0 ;
+uint16_t data = 0 ;
+char TrueID [11] = {'6','4','3','4','0','5','0','0','0','0','9'};
+char ID [11] = {0} ;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -119,10 +123,32 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  static uint32_t timestamp = 0;
 	  static uint32_t delay = 20;
+
 	  if(HAL_GetTick() >= timestamp)
 	  	  	{
 	  	  		timestamp = HAL_GetTick() + delay ;
 	  	  		ReadMatrixButton_1Row();
+	  	  		if (ButtonMatrix == 8 && data == 0)
+	  	  		{
+	  	  			ID[position] = 0 ;
+	  	  			position += 1 ;
+	  	  			data = 1 ;
+	  	  		}
+	  	  		else if (ButtonMatrix == 4 && data == 0)
+	  	  		{
+	  	  			ID[position] = 1 ;
+	  	  			position += 1 ;
+	  	  			data = 1 ;
+	  	  		}
+
+	  	  		if(ButtonMatrix == 0 && data == 1)
+	  	  		{
+	  	  			data = 0 ;
+	  	  		}
+	  	  		if(position == 11 )
+	  	  		{
+	  	  		  	position = 0 ;
+	  	  		}
 	  	  	}
 
 
