@@ -64,6 +64,7 @@ struct Portpin L[4] = {
 uint16_t ButtonMatrix = 0 ;
 uint16_t position = 0 ;
 uint16_t data = 0 ;
+uint16_t check = 0 ;
 char TrueID [11] = {6,4,3,4,0,5,0,0,0,0,9};
 char ID [11] = {0} ;
 /* USER CODE END PV */
@@ -200,14 +201,34 @@ int main(void)
 	  	  		}
 	  	  	    else if (ButtonMatrix == 8192 && data == 0 && position > 0)
 	  	  		{
-	  	  		  	   		ID[position-1] = 0 ;
+	  	  	    	 data = 1 ;
+	  	  	    	 if(position < 11)
+	  	  		  	 {
+	  	  	    			ID[position-1] = 0 ;
 	  	  		  	   		position -= 1 ;
-	  	  	  	  		  	data = 1 ;
+
+	  	  		  	 }
+	  	  		  	 else {
+	  	  		  		 ID[10] = 0 ;
+	  	  		  		 position -=1 ;
+	  	  		  	 }
 	  	  		}
 	  	  	    else if (ButtonMatrix == 32768 && data == 0)
 	  	  		{
 	  	  	    	data = 1 ;
-	  	  	    	if(strcmp(TrueID,ID) == 0)
+	  	  	    	register i ;
+	  	  	    	for(i = 0;i<11;i++)
+	  	  	    	{
+	  	  	    	  if(ID [i] == TrueID[i])
+	  	  	    	  {
+	  	  	    	  	  check = 1 ;
+	  	  	    	  }
+	  	  	    	  else
+	  	  	    	  {
+	  	  	    	  	  check = 0 ;
+	  	  	    	  }
+	  	  	    	  	  		}
+	  	  	    	if(check == 1)
 	  	  	    	{
 	  	  	    		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 	  	  	    	}
@@ -215,14 +236,13 @@ int main(void)
 	  	  	    		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 	  	  	    	}
 	  	  		}
-
 	  	  		if(ButtonMatrix == 0 && data == 1)
 	  	  		{
 	  	  			data = 0 ;
 	  	  		}
-	  	  		if(position == 11)
+	  	  		if(position == 12)
 	  	  		{
-	  	  		  	position = 0 ;
+	  	  			position = 0;
 	  	  		}
 	  	  	}
 
