@@ -199,17 +199,18 @@ int main(void)
 	  	  			  ID [j] = 0 ;
 	  	  		  }
 	  	  		}
-	  	  	    else if (ButtonMatrix == 8192 && data == 0 && position > 0)
+	  	  	    else if (ButtonMatrix == 8192 && data == 0)
 	  	  		{
 	  	  	    	 data = 1 ;
-	  	  	    	 if(position < 11)
+	  	  	    	 if(position == 0)
 	  	  		  	 {
-	  	  	    			ID[position-1] = 0 ;
-	  	  		  	   		position -= 1 ;
+	  	  	    			ID[10] = 0 ;
+	  	  		  	   		position = 10 ;
 
 	  	  		  	 }
-	  	  		  	 else {
-	  	  		  		 ID[10] = 0 ;
+	  	  		  	 else if(position > 0)
+	  	  		  	 {
+	  	  		  		 ID[position-1] = 0 ;
 	  	  		  		 position -=1 ;
 	  	  		  	 }
 	  	  		}
@@ -240,7 +241,7 @@ int main(void)
 	  	  		{
 	  	  			data = 0 ;
 	  	  		}
-	  	  		if(position == 12)
+	  	  		if(position == 11)
 	  	  		{
 	  	  			position = 0;
 	  	  		}
