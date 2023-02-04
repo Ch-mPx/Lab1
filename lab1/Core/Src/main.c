@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include<stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -64,7 +64,7 @@ struct Portpin L[4] = {
 uint16_t ButtonMatrix = 0 ;
 uint16_t position = 0 ;
 uint16_t data = 0 ;
-char TrueID [11] = {'6','4','3','4','0','5','0','0','0','0','9'};
+char TrueID [11] = {6,4,3,4,0,5,0,0,0,0,9};
 char ID [11] = {0} ;
 /* USER CODE END PV */
 
@@ -123,7 +123,6 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  static uint32_t timestamp = 0;
 	  static uint32_t delay = 20;
-
 	  if(HAL_GetTick() >= timestamp)
 	  	  	{
 	  	  		timestamp = HAL_GetTick() + delay ;
@@ -140,12 +139,88 @@ int main(void)
 	  	  			position += 1 ;
 	  	  			data = 1 ;
 	  	  		}
+	  	  	    else if (ButtonMatrix == 64 && data == 0)
+	   	  		{
+	  	  		  	ID[position] = 2 ;
+	  	  		  	position += 1 ;
+	  	  		  	data = 1 ;
+	   	  		}
+	  	  	    else if (ButtonMatrix == 1024 && data == 0)
+	  	  		{
+	  	   		  	ID[position] = 3 ;
+	  	  		  	position += 1 ;
+  	  		  	    data = 1 ;
+	  	  		}
+	  	  	    else if (ButtonMatrix == 2 && data == 0)
+	  	  		{
+	  	  		   	ID[position] = 4 ;
+	  	  		  	position += 1 ;
+	  		  	    data = 1 ;
+	  	  		}
+	  	  	    else if (ButtonMatrix == 32 && data == 0)
+	  	  		{
+	  	  		  	ID[position] = 5 ;
+	  	  		  	position += 1 ;
+	  	  	  	    data = 1 ;
+	  	  		}
+	  	  	    else if (ButtonMatrix == 512 && data == 0)
+	  	   		{
+	  	  	  	    ID[position] = 6 ;
+	  	  	  	    position += 1 ;
+	  	    	    data = 1 ;
+ 	  	  		}
+	  	  	    else if (ButtonMatrix == 1 && data == 0)
+	  		  	{
+	  		  	    ID[position] = 7 ;
+	  		  	  	position += 1 ;
+	  	  	  		data = 1 ;
+	  		  	}
+	  	  	    else if (ButtonMatrix == 16 && data == 0)
+	  		  	{
+	  		  	    ID[position] = 8 ;
+	  		  	  	position += 1 ;
+	  	  	  		data = 1 ;
+	  		  	}
+	  	  	    else if (ButtonMatrix == 256 && data == 0)
+	  		  	{
+	  		  	    ID[position] = 9 ;
+	  		  	    position += 1 ;
+	  	  	  		data = 1 ;
+	  		  	}
+	  	  	    else if (ButtonMatrix == 4096 && data == 0)
+	  	  		{
+	  	  		  register int j  ;
+	  	  		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	  	  		  data = 1 ;
+	  	  		  position = 0 ;
+	  	  		  for(j = 0;j<11;j++)
+	  	  		  {
+	  	  			  ID [j] = 0 ;
+	  	  		  }
+	  	  		}
+	  	  	    else if (ButtonMatrix == 8192 && data == 0 && position > 0)
+	  	  		{
+	  	  		  	   		ID[position-1] = 0 ;
+	  	  		  	   		position -= 1 ;
+	  	  	  	  		  	data = 1 ;
+	  	  		}
+	  	  	    else if (ButtonMatrix == 32768 && data == 0)
+	  	  		{
+	  	  	    	data = 1 ;
+	  	  	    	if(strcmp(TrueID,ID) == 0)
+	  	  	    	{
+	  	  	    		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	  	  	    	}
+	  	  	    	else {
+	  	  	    		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	  	  	    	}
+	  	  		}
 
 	  	  		if(ButtonMatrix == 0 && data == 1)
 	  	  		{
 	  	  			data = 0 ;
 	  	  		}
-	  	  		if(position == 11 )
+	  	  		if(position == 11)
 	  	  		{
 	  	  		  	position = 0 ;
 	  	  		}
